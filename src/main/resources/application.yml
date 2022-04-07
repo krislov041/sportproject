@@ -1,0 +1,15 @@
+server:
+  port: 5894
+#数据库驱动
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sportdb?serverTimezone=GMT%2b8
+    username: root
+    password: 12345678abcd
+
+###配置mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml #扫描所有mybatis的xml文件 xml里面写的动态sql
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

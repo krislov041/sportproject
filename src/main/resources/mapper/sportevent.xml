@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--动态sql-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sportpb.mapper.SporteventMapper">
+<!--    namespace mapper全路径-->
+    <update id="update">
+        update sportevent
+        <set>
+            <if test="s_Name != null">
+                s_Name =#{s_Name},
+            </if>
+            <if test="s_Time != null">
+                s_Time =#{s_Time},
+            </if>
+            <if test="s_Result != null">
+                s_Result =#{s_Result}
+            </if>
+        </set>
+        <where>
+            s_id=#{s_id}
+        </where>
+    </update>
+</mapper>
