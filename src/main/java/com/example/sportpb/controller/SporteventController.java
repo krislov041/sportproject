@@ -1,5 +1,8 @@
 package com.example.sportpb.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.sportpb.entity.Sportevent;
 import com.example.sportpb.mapper.SporteventMapper;
 import com.example.sportpb.service.SporteventService;
@@ -24,8 +27,8 @@ public class SporteventController {
      * @Autowired 注入其他类的一个注解
      * 使得mapper接口类可以被springboot识别到
      */
-    @Autowired
-    private SporteventMapper sporteventMapper;
+//    @Autowired
+//    private SporteventMapper sporteventMapper;
 
     @Autowired
     private SporteventService sporteventService;
@@ -35,9 +38,10 @@ public class SporteventController {
      * service save实现新增和更新功能
      * */
     @PostMapping("/save")//post请求进行增删
-    public Integer save(@RequestBody Sportevent sportevent){
+    public boolean save(@RequestBody Sportevent sportevent){
     //@RequestBody  前台传入一个json对象的时候可以把 json 映射成sportevent
-        return sporteventService.save(sportevent);
+//        return sporteventService.save(sportevent);mybatis写法
+          return sporteventService.savese(sportevent);//mybatis-plus
 
     }
     /**
@@ -47,23 +51,26 @@ public class SporteventController {
 //  查询接收数据，依赖于 @RestController RequestMapping 的url和 GETmapping url的拼接得到最后的url
     public List<Sportevent> findAll() {
 
-        return sporteventMapper.findAll();
+//      return sporteventMapper.findAll();mybatis写法
+        return sporteventService.list();//mybatis-plus
 
     }
     /**根据id删除数据
      * */
     @DeleteMapping("/{s_id}")
-    public Integer delete(@PathVariable Integer s_id){//@PathVariable  表示url参数
+    public boolean delete(@PathVariable Integer s_id){//@PathVariable  表示url参数
 
-        return sporteventMapper.deleteById(s_id);
+//        return sporteventMapper.deleteById(s_id);mybatis写法
+        return sporteventService.removeById(s_id);//mybatis-plus
 
     }
     /**
      * 根据名字查询对应表数据*/
-    @GetMapping("/name")
-    public List<Sportevent> findName(@RequestParam String s_Name){
-        return sporteventMapper.selectName(s_Name);
-    }
+//    @GetMapping("/name")
+//    public List<Sportevent> findName(@RequestParam String s_Name){
+//        return sporteventMapper.selectName(s_Name);
+////        return sporteventService.getObj()
+//    }
 
     /**分页查询接口
      * 接口路径 /sportevent/page
@@ -72,7 +79,8 @@ public class SporteventController {
      * 确定 select * from table limit begin,num 中每页的起始位置 begin
      * begin=（pageNum-1）*pageSize
      */
-    @GetMapping("/page")
+
+    /**
     public Map<String,Object> findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
         pageNum=(pageNum-1)*pageSize;
         List<Sportevent> data=sporteventMapper.selectPage(pageNum,pageSize);
@@ -82,7 +90,27 @@ public class SporteventController {
         res.put("total",total);
         return res;
 
+    }*/
+    /**
+     * 分页查询mybatis-plus实现
+     * */
+    @GetMapping("/page")
+    public IPage<Sportevent> findPageQuery(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam(defaultValue = "") String sName){
+        IPage page = new Page<>(pageNum,pageSize);
+        QueryWrapper<Sportevent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("s_Name",sName);
+        IPage<Sportevent> sporteventIPage=sporteventService.page(page,queryWrapper);
+        return sporteventIPage;
     }
+//    @GetMapping("/page")
+//    public IPage<Sportevent> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+//        IPage page = new Page<>(pageNum,pageSize);
+////        QueryWrapper<Sportevent> queryWrapper = new QueryWrapper<>();
+////        queryWrapper.like("s_Name",sName);
+//        IPage<Sportevent> sporteventIPage=sporteventService.page(page);
+//        return sporteventIPage;
+//    }
+
 
 
 }

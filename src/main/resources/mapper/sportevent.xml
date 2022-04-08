@@ -3,21 +3,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.sportpb.mapper.SporteventMapper">
 <!--    namespace mapper全路径-->
+
     <update id="update">
         update sportevent
         <set>
-            <if test="s_Name != null">
-                s_Name =#{s_Name},
+            <if test="sName != null">
+--             如果输入，即entity中的sName不为空，把controller获得的数据给数据表s_Name
+--             s_Name(数据表列名)=#{}
+                s_Name =#{sName},
             </if>
-            <if test="s_Time != null">
-                s_Time =#{s_Time},
+            <if test="sTime != null">
+                s_Time =#{sTime},
             </if>
-            <if test="s_Result != null">
-                s_Result =#{s_Result}
+            <if test="sResult != null">
+                s_Result =#{sResult}
             </if>
         </set>
         <where>
-            s_id=#{s_id}
+            s_id=#{sId}
         </where>
     </update>
 </mapper>

@@ -9,7 +9,7 @@ spring:
     password: 12345678abcd
 
 ###配置mybatis
-mybatis:
+mybatis-plus:
   mapper-locations: classpath:mapper/*.xml #扫描所有mybatis的xml文件 xml里面写的动态sql
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
